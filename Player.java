@@ -39,7 +39,7 @@ public class Player extends Actor implements IDamagable
     
     private void shoot()
     {
-        getWorld().addObject(new Bullet(getRotation(), this), getX(), getY());
+        getWorld().addObject(new ExplosiveBullet(getRotation(), this), getX(), getY());
     }
     
     private void handleRotation()
