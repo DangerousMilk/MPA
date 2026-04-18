@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=IDamagable
+comment1.params=amount\ damagePosX\ damagePosY\ knockback
+comment1.target=void\ takeDamage(int,\ int,\ int,\ double)
+comment2.params=
+comment2.target=int\ getHealth()
+numComments=3

@@ -1,18 +1,17 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
-public class Enemy extends Actor
+public class Enemy extends Actor implements IDamagable
 {
-    MyWorld world; 
-    Player player;
+    private MyWorld world; 
+    private Player player;
     
-    int health = 100;
-    int speed = 3;
+    protected int health = 100;
+
+    protected double maxSpeed = 3;
+    protected double acceleration = 0.1;
     
-    double vx = 0;
-    double vy = 0;
-    
-    double acceleration = 0.1;
-    double maxSpeed = 3;
+    private double vx = 0;
+    private double vy = 0;
     
     @Override
     public void addedToWorld(World world)
@@ -29,6 +28,10 @@ public class Enemy extends Actor
     {
         handleMovement();
         handleRotation();
+        isTouching(Player.class)
+        {
+            
+        }
     }
     
     private void handleMovement()
@@ -66,13 +69,26 @@ public class Enemy extends Actor
         setRotation(angleDeg);
     }
     
-    public void damageEnemy(int damage)
+    public void takeDamage(int amount, int damagePosX, int damagePosY, double knockback)
     {
-        health -= damage;
-        
+        health -= amount;
         if(health <= 0)
         {
             getWorld().removeObject(this);
+            return;
         }
+        
+        // Knockback
+        double dx = damagePosX - getX();
+        double dy = damagePosY - getY();
+        double distance = Math.sqrt(dx * dx + dy * dy);
+        
+        vx -= (dx / distance) * knockback;
+        vy -= (dy / distance) * knockback;
+    }
+    
+    public int getHealth()
+    {
+        return health;
     }
 }

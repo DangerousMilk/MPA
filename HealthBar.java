@@ -8,23 +8,24 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class HealthBar extends Actor
 {
-    public Enemy targetEnemy;
+    public IDamagable target;
     private int yOffset = -25;
     
-    public HealthBar(Enemy enemy)
+    public HealthBar(IDamagable target)
     {
-        targetEnemy = enemy;
+        this.target = target;
     }
     
     public void act()
     {
-        if(targetEnemy.getWorld() == null)
+        Actor targetActor = (Actor)target;
+        if(targetActor.getWorld() == null)
         {
             getWorld().removeObject(this);
             return;
         }
 
-        setLocation(targetEnemy.getX(), targetEnemy.getY() + yOffset);
-        setImage(new GreenfootImage("" + targetEnemy.health, 20, Color.WHITE, null));
+        setLocation(targetActor.getX(), targetActor.getY() + yOffset);
+        setImage(new GreenfootImage("" + target.getHealth(), 20, Color.WHITE, null));
     }
 }

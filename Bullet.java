@@ -2,33 +2,49 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 public class Bullet extends Actor
 {
-    private int speed = 50;
-    private int damage = 15;
+    protected int speed = 50;
+    protected int damage = 15;
+    protected int knockback = 2;
     
-    public Bullet(int angle)
+    protected Class<?> collisionMask = Enemy.class;
+    private Actor shooter;
+    
+    public Bullet(int angle, Actor shooter)
     {
         setRotation(angle);
-        getImage().scale(10, 10); 
+        getImage().scale(10, 10);
+        this.shooter = shooter;
     }
     
     public void act()
     {
         move(speed);
-        
-        if(isTouching(Enemy.class))
+        checkCollision();
+    }
+    
+    private void checkCollision()
+    {
+        if(isTouching(collisionMask))
         {
-            Enemy enemy = (Enemy)getOneIntersectingObject(Enemy.class);
-            enemy.damageEnemy(damage);
-
-            getWorld().removeObject(this);
+            hit(getOneIntersectingObject(collisionMask));
             return;
         }
         
         if(isAtEdge())
         {
-            getWorld().removeObject(this);
+            hit(null);
             return;
+        }  
+    }
+    
+    private void hit(Actor hitObject)
+    {
+        if(hitObject != null)
+        {
+            IDamagable damagable = (IDamagable)hitObject;
+            damagable.takeDamage(damage, shooter.getX(), shooter.getY(), 2);
         }
         
+        getWorld().removeObject(this);
     }
 }

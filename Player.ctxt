@@ -1,11 +1,17 @@
 #BlueJ class context
 comment0.target=Player
-comment1.params=
-comment1.target=void\ act()
+comment1.params=world
+comment1.target=void\ addedToWorld(greenfoot.World)
 comment2.params=
-comment2.target=void\ handleShooting()
+comment2.target=void\ act()
 comment3.params=
-comment3.target=void\ handleRotation()
+comment3.target=void\ handleShooting()
 comment4.params=
-comment4.target=void\ handleMovement()
-numComments=5
+comment4.target=void\ handleRotation()
+comment5.params=
+comment5.target=void\ handleMovement()
+comment6.params=amount\ damagePosX\ damagePosY\ knockback
+comment6.target=void\ takeDamage(int,\ int,\ int,\ double)
+comment7.params=
+comment7.target=int\ getHealth()
+numComments=8

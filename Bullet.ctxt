@@ -1,7 +1,11 @@
 #BlueJ class context
 comment0.target=Bullet
-comment1.params=angle
-comment1.target=Bullet(int)
+comment1.params=angle\ shooter
+comment1.target=Bullet(int,\ greenfoot.Actor)
 comment2.params=
 comment2.target=void\ act()
-numComments=3
+comment3.params=
+comment3.target=void\ checkCollision()
+comment4.params=hitObject
+comment4.target=void\ hit(greenfoot.Actor)
+numComments=5

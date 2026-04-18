@@ -1,8 +1,8 @@
 #BlueJ class context
 comment0.target=HealthBar
 comment0.text=\n\ Write\ a\ description\ of\ class\ HealthBar\ here.\n\ \n\ @author\ (your\ name)\ \n\ @version\ (a\ version\ number\ or\ a\ date)\n
-comment1.params=enemy
-comment1.target=HealthBar(Enemy)
+comment1.params=target
+comment1.target=HealthBar(IDamagable)
 comment2.params=
 comment2.target=void\ act()
 numComments=3
