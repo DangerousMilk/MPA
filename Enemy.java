@@ -8,6 +8,9 @@ public class Enemy extends Actor
     int health = 100;
     int speed = 3;
     
+    float vx = 0;
+    float vy = 0;
+    
     @Override
     public void addedToWorld(World world)
     {
@@ -21,12 +24,19 @@ public class Enemy extends Actor
 
     public void act()
     {
-        int x = getX();
-        int y = getY();
-        int dx = Utils.clamp(player.getX() - getX(), -1, 1);
-        int dy = Utils.clamp(player.getY() - getY(), -1, 1);
+        double dx = player.getX() - getX();
+        double dy = player.getY() - getY();
+        double distance = Math.sqrt(dx * dx + dy * dy);
         
-        setLocation(x + dx * speed, y + dy * speed);
+        if (distance > 0) {
+            double normalizedX = dx / distance;
+            double normalizedY = dy / distance;
+        
+            int newX = (int)(getX() + normalizedX * speed);
+            int newY = (int)(getY() + normalizedY * speed);
+        
+            setLocation(newX, newY);
+        }
     }
     
     public void damageEnemy(int damage)
