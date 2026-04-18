@@ -1,17 +1,12 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
-/**
- * Write a description of class Enemy here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
- */
 public class Enemy extends Actor
 {
     MyWorld world; 
     Player player;
     
     int health = 100;
+    int speed = 3;
     
     @Override
     public void addedToWorld(World world)
@@ -19,14 +14,19 @@ public class Enemy extends Actor
         this.world = getWorldOfType(MyWorld.class);
         player = this.world.player;
         
+        // Health bar
         HealthBar healthBar = new HealthBar(this);
         this.world.addObject(healthBar, 0, 0);
     }
 
     public void act()
     {
-        turnTowards(player.getX(), player.getY());
-        move(1);
+        int x = getX();
+        int y = getY();
+        int dx = Utils.clamp(player.getX() - getX(), -1, 1);
+        int dy = Utils.clamp(player.getY() - getY(), -1, 1);
+        
+        setLocation(x + dx * speed, y + dy * speed);
     }
     
     public void damageEnemy(int damage)
