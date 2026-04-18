@@ -33,7 +33,7 @@ public class Bullet extends Actor
         }  
     }
     
-    private void hit(Actor hitObject)
+    protected void hit(Actor hitObject)
     {
         if(hitObject != null)
         {

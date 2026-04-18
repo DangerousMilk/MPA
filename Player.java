@@ -71,4 +71,11 @@ public class Player extends Actor implements IDamagable
     {
         return health;
     }
+    
+    /*
+    public Actor getActor()
+    {
+        return this;
+    }
+    */
 }
