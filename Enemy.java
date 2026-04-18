@@ -8,8 +8,11 @@ public class Enemy extends Actor
     int health = 100;
     int speed = 3;
     
-    float vx = 0;
-    float vy = 0;
+    double vx = 0;
+    double vy = 0;
+    
+    double acceleration = 0.1;
+    double maxSpeed = 3;
     
     @Override
     public void addedToWorld(World world)
@@ -24,19 +27,43 @@ public class Enemy extends Actor
 
     public void act()
     {
+        handleMovement();
+        handleRotation();
+    }
+    
+    private void handleMovement()
+    {
         double dx = player.getX() - getX();
         double dy = player.getY() - getY();
         double distance = Math.sqrt(dx * dx + dy * dy);
         
         if (distance > 0) {
-            double normalizedX = dx / distance;
-            double normalizedY = dy / distance;
-        
-            int newX = (int)(getX() + normalizedX * speed);
-            int newY = (int)(getY() + normalizedY * speed);
-        
+            // Accelerate towards player
+            vx += (dx / distance) * acceleration;
+            vy += (dy / distance) * acceleration;
+            
+            // Clamp velocity at max speed
+            double velLength = Math.sqrt(vx * vx + vy * vy);
+            if(velLength > maxSpeed)
+            {
+                vx = (vx / velLength) * maxSpeed;
+                vy = (vy / velLength) * maxSpeed;
+            }
+            
+            // Move enemy
+            int newX = (int)(getX() + vx);
+            int newY = (int)(getY() + vy);
             setLocation(newX, newY);
         }
+    }
+    
+    private void handleRotation()
+    {
+        // Calculate facing direction based on velocity
+        double angleRad = Math.atan2(vy, vx);
+        // Convert to degrees
+        int angleDeg = (int)Math.toDegrees(angleRad);
+        setRotation(angleDeg);
     }
     
     public void damageEnemy(int damage)
