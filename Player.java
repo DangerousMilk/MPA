@@ -2,8 +2,11 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 public class Player extends Actor implements IDamagable
 {
-    int speed = 2;
-    int health = 100;
+    private int speed = 2;
+    private int health = 100;
+    
+    private int shootCooldownTimer = 0;
+    private int shootCooldown = 25;
 
     @Override
     public void addedToWorld(World world)
@@ -20,10 +23,23 @@ public class Player extends Actor implements IDamagable
     
     private void handleShooting()
     {
-        if(Greenfoot.mouseClicked(null))
+        if(shootCooldownTimer <= 0)
         {
-            getWorld().addObject(new Bullet(getRotation(), this), getX(), getY());
-        }   
+            if(Greenfoot.mouseClicked(null))
+            {
+                shoot();
+                shootCooldownTimer = shootCooldown;
+            }   
+        }
+        else
+        {
+            shootCooldownTimer--;
+        }
+    }
+    
+    private void shoot()
+    {
+        getWorld().addObject(new Bullet(getRotation(), this), getX(), getY());
     }
     
     private void handleRotation()

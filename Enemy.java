@@ -97,8 +97,24 @@ public class Enemy extends Actor implements IDamagable
     }
     private void handleMovement()
     {
-        int newX = (int)(getX() + vx);
-        int newY = (int)(getY() + vy);
+        // Push away from other enemies
+        double sepX = 0;
+        double sepY = 0;
+        
+        for (Enemy otherEnemy : getNeighbours(40, true, Enemy.class)) {
+            double dx = getX() - otherEnemy.getX();
+            double dy = getY() - otherEnemy.getY();
+            double dist = Math.sqrt(dx * dx + dy * dy);
+        
+            if (dist > 0) {
+                sepX += dx / dist;
+                sepY += dy / dist;
+            }
+        }
+        
+        // Move enemy
+        int newX = (int)(getX() + vx + sepX);
+        int newY = (int)(getY() + vy + sepY);
         setLocation(newX, newY);
     }
     

@@ -4,7 +4,7 @@ public class MyWorld extends World
 {
     public Player player;
     private float enemySpawnTimer = 0;
-    private float enemySpawnInterval = 100;
+    private float enemySpawnInterval = 200;
     
     public MyWorld()
     {    
