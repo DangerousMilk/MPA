@@ -5,13 +5,21 @@ public class Enemy extends Actor implements IDamagable
     private MyWorld world; 
     private Player player;
     
+    // Health
     protected int health = 100;
 
-    protected double maxSpeed = 3;
+    // Movement
+    protected double maxSpeed = 4;
     protected double acceleration = 0.1;
-    
     private double vx = 0;
     private double vy = 0;
+    
+    // Stunning
+    private int stunTimer = 0;
+    private int stunTime = 50;
+    
+    private EnemyState state = EnemyState.MOVING;
+
     
     @Override
     public void addedToWorld(World world)
@@ -19,7 +27,7 @@ public class Enemy extends Actor implements IDamagable
         this.world = getWorldOfType(MyWorld.class);
         player = this.world.player;
         
-        // Health bar
+        // Add health bar
         HealthBar healthBar = new HealthBar(this);
         this.world.addObject(healthBar, 0, 0);
     }
@@ -28,13 +36,46 @@ public class Enemy extends Actor implements IDamagable
     {
         handleMovement();
         handleRotation();
-        isTouching(Player.class)
+                
+        switch(state)
         {
-            
+            case MOVING:
+                moveTowardsPlayer();
+                handleAttacking();
+                break;
+            case STUNNED:
+                applyDrag();
+                handleStunCooldown();
+                break;
         }
     }
     
-    private void handleMovement()
+    private void handleAttacking()
+    {
+        if(isTouching(Player.class))
+        {
+            IDamagable player = (IDamagable)getOneIntersectingObject(Player.class);
+            player.takeDamage(5, getX(), getY(), 0);
+            stun();
+        }
+    }
+    
+    private void handleStunCooldown()
+    {
+        stunTimer--;
+        if(stunTimer <= 0)
+        {
+            state = EnemyState.MOVING;
+        }
+    }
+    
+    private void stun()
+    {
+        stunTimer = stunTime;
+        state = EnemyState.STUNNED;
+    }
+    
+    private void moveTowardsPlayer()
     {
         double dx = player.getX() - getX();
         double dy = player.getY() - getY();
@@ -52,12 +93,19 @@ public class Enemy extends Actor implements IDamagable
                 vx = (vx / velLength) * maxSpeed;
                 vy = (vy / velLength) * maxSpeed;
             }
-            
-            // Move enemy
-            int newX = (int)(getX() + vx);
-            int newY = (int)(getY() + vy);
-            setLocation(newX, newY);
         }
+    }
+    private void handleMovement()
+    {
+        int newX = (int)(getX() + vx);
+        int newY = (int)(getY() + vy);
+        setLocation(newX, newY);
+    }
+    
+    private void applyDrag()
+    {
+        vx = vx * 0.95;
+        vy = vy * 0.95;
     }
     
     private void handleRotation()

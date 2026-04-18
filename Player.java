@@ -48,7 +48,7 @@ public class Player extends Actor implements IDamagable
     
     public void takeDamage(int amount, int damagePosX, int damagePosY, double knockback)
     {
-        
+        health -= amount;
     }
     
     public int getHealth()
