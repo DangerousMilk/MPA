@@ -18,6 +18,8 @@ public class ExplosiveBullet extends Bullet
     @Override
     public void hit(Actor hitObject)
     {
+        getWorld().addObject(new ExplosionEffect(), getX(), getY());
+        
         // Damage everything in the explosion area
         List<Actor> hitActors = getNeighbours(areaOfEffect, true, Actor.class);
         for (Actor hitActor : hitActors)
