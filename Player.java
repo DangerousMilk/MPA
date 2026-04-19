@@ -7,6 +7,8 @@ public class Player extends Actor implements IDamagable
     
     private int shootCooldownTimer = 0;
     private int shootCooldown = 25;
+    
+    private boolean isHoldingDownMouse;
 
     @Override
     public void addedToWorld(World world)
@@ -16,16 +18,31 @@ public class Player extends Actor implements IDamagable
     
     public void act()
     {
+        handleMouseInput();
+        handleShooting();
+        
         handleMovement();
         handleRotation();
-        handleShooting();
+    }
+    
+    private void handleMouseInput()
+    {
+        if(Greenfoot.mousePressed(null))
+        {
+            isHoldingDownMouse = true;
+        }
+        
+        if(Greenfoot.mouseClicked(null))
+        {
+            isHoldingDownMouse = false;
+        }
     }
     
     private void handleShooting()
     {
         if(shootCooldownTimer <= 0)
         {
-            if(Greenfoot.mouseClicked(null))
+            if(isHoldingDownMouse)
             {
                 shoot();
                 shootCooldownTimer = shootCooldown;
