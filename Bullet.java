@@ -38,7 +38,11 @@ public class Bullet extends Actor
         if(hitObject != null)
         {
             IDamagable damagable = (IDamagable)hitObject;
-            damagable.takeDamage(getDamage(), shooter.getX(), shooter.getY(), getKnockback());
+            if(shooter.getWorld() != null)
+            {
+                damagable.takeDamage(getDamage(), shooter.getX(), shooter.getY(), getKnockback());   
+            }
+            damagable.takeDamage(getDamage(), getX(), getY(), getKnockback());
         }
         
         getWorld().removeObject(this);

@@ -65,17 +65,16 @@ public class Player extends Actor implements IDamagable
     public void takeDamage(int amount, int damagePosX, int damagePosY, double knockback)
     {
         health -= amount;
+        if(health <= 0)
+        {
+            getWorld().removeObject(this);
+            Message.getInstance().showMessage("Du hast verloren!", 10, 2000);
+            return;
+        }
     }
     
     public int getHealth()
     {
         return health;
     }
-    
-    /*
-    public Actor getActor()
-    {
-        return this;
-    }
-    */
 }

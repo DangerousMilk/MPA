@@ -70,7 +70,7 @@ public class EnemySpawner extends Actor
         // Cooldown
         waveCooldownTimer = waveInterval;
         
-        Message.getInstance().showMessage("Wave " + wave, 10, 1000);
+        Message.getInstance().showMessage("Welle " + wave, 10, 1000);
     }
     
     private boolean waveCooldownFinished()

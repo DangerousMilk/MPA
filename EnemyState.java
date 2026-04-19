@@ -1,5 +1,6 @@
 public enum EnemyState
 {
     STUNNED,
-    MOVING
+    MOVING,
+    IDLE
 }

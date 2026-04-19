@@ -39,6 +39,11 @@ public class Enemy extends Actor implements IDamagable
         switch(state)
         {
             case MOVING:
+                if(player.getWorld() == null)
+                {
+                    state = EnemyState.IDLE;
+                    break;
+                }
                 moveTowardsPlayer();
                 handleAttacking();
                 break;
@@ -46,11 +51,15 @@ public class Enemy extends Actor implements IDamagable
                 applyDrag();
                 handleStunCooldown();
                 break;
+            case IDLE:
+                applyDrag();
+                break;
         }
     }
     
     private void handleAttacking()
     {
+        if(player.getWorld() == null) return;
         if(isTouching(Player.class))
         {
             IDamagable player = (IDamagable)getOneIntersectingObject(Player.class);
@@ -76,6 +85,7 @@ public class Enemy extends Actor implements IDamagable
     
     private void moveTowardsPlayer()
     {
+        if(player.getWorld() == null) return;
         double dx = player.getX() - getX();
         double dy = player.getY() - getY();
         double distance = Math.sqrt(dx * dx + dy * dy);
