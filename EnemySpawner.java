@@ -7,13 +7,18 @@ public class EnemySpawner extends Actor
     private float enemySpawnTimer = 0;
     private float enemySpawnInterval = 200;
     
+    // Enemy spawning
     private int enemiesToSpawn = 0;
     private int enemiesToSpawnPerWave = 5;
     private int spawnedEnemies = 0;
     
+    // Tracking
     private int currentEnemyCount = 0;
-    
     private int wave = 0;
+    
+    // Cooldown
+    private int waveCooldownTimer = 0;
+    private int waveInterval = 500;
     
     private static EnemySpawner instance;
     
@@ -35,11 +40,15 @@ public class EnemySpawner extends Actor
     
     public void act()
     {
-        handleEnemySpawning();
+        handleWaveCooldown();
         
-        if(allWaveEnemiesSpawned() && currentEnemyCount <= 0)
+        if(waveCooldownFinished())
         {
-            Greenfoot.delay(5);
+            handleEnemySpawning();   
+        }
+        
+        if(waveCompleted())
+        {
             progressWave();
         }
     }
@@ -47,14 +56,27 @@ public class EnemySpawner extends Actor
     private void progressWave()
     {
         wave++;
+        
+        // Spawning
         enemiesToSpawn = enemiesToSpawnPerWave * wave;
         spawnedEnemies = 0;
         enemySpawnTimer = enemySpawnInterval;
+        
+        // Cooldown
+        waveCooldownTimer = waveInterval;
     }
     
-    private boolean allWaveEnemiesSpawned()
+    private boolean waveCooldownFinished()
     {
-        return spawnedEnemies >= enemiesToSpawn;
+        return waveCooldownTimer <= 0;
+    }
+    
+    private void handleWaveCooldown()
+    {
+        if(waveCooldownTimer > 0)
+        {
+            waveCooldownTimer--;
+        }
     }
     
     private void handleEnemySpawning()
@@ -99,6 +121,16 @@ public class EnemySpawner extends Actor
         
         currentEnemyCount++;
         spawnedEnemies++;
+    }
+     
+    private boolean allWaveEnemiesSpawned()
+    {
+        return spawnedEnemies >= enemiesToSpawn;
+    }
+    
+    private boolean waveCompleted()
+    {
+        return allWaveEnemiesSpawned() && currentEnemyCount <= 0;
     }
     
     public void enemyKilled()
