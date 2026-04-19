@@ -1,6 +1,11 @@
 #BlueJ class context
 comment0.target=ExplosionEffect
-comment0.text=\n\ Write\ a\ description\ of\ class\ ExplosionEffect\ here.\n\ \n\ @author\ (your\ name)\ \n\ @version\ (a\ version\ number\ or\ a\ date)\n
 comment1.params=
 comment1.target=void\ act()
-numComments=2
+comment2.params=
+comment2.target=java.lang.String[]\ getAnimationFrames()
+comment3.params=
+comment3.target=int\ getSize()
+comment4.params=
+comment4.target=boolean\ destroyOnAnimationFinish()
+numComments=5

@@ -11,7 +11,7 @@ public class MyWorld extends World
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(1440, 1080, 1);
         
-        setPaintOrder(Player.class, HealthBar.class, Enemy.class ,Bullet.class);
+        setPaintOrder(ExplosionEffect.class, Player.class, HealthBar.class, Enemy.class ,Bullet.class);
         
         player = new Player();
         addObject(player, 300, 300);
