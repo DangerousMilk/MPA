@@ -19,7 +19,6 @@ public class Enemy extends Actor implements IDamagable
     private int stunTime = 50;
     
     private EnemyState state = EnemyState.MOVING;
-
     
     @Override
     public void addedToWorld(World world)
@@ -139,6 +138,7 @@ public class Enemy extends Actor implements IDamagable
         if(health <= 0)
         {
             getWorld().removeObject(this);
+            EnemySpawner.getInstance().enemyKilled();
             return;
         }
         
