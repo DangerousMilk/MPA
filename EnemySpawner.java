@@ -18,13 +18,18 @@ public class EnemySpawner extends Actor
     
     // Cooldown
     private int waveCooldownTimer = 0;
-    private int waveInterval = 500;
+    private int waveInterval = 100;
     
     private static EnemySpawner instance;
     
     public EnemySpawner()
     {
         instance = this;
+    }
+    
+    @Override
+    public void addedToWorld(World world)
+    {
         progressWave();
     }
     
@@ -64,6 +69,8 @@ public class EnemySpawner extends Actor
         
         // Cooldown
         waveCooldownTimer = waveInterval;
+        
+        Message.getInstance().showMessage("Wave " + wave, 10, 1000);
     }
     
     private boolean waveCooldownFinished()

@@ -13,6 +13,8 @@ public class MyWorld extends World
         player = new Player();
         addObject(player, 300, 300);
         
+        // Singletons
+        addObject(new Message(), 0, 0);
         addObject(new EnemySpawner(), 0, 0);
     }
     
